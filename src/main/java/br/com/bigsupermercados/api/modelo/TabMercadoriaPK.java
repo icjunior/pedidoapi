@@ -11,7 +11,7 @@ public class TabMercadoriaPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "cod_mercadoria")
-	private Integer codMercadoria;
+	private String codMercadoria;
 
 	@Column(name = "cod_loja")
 	private Integer codLoja;
@@ -20,16 +20,16 @@ public class TabMercadoriaPK implements Serializable {
 
 	}
 
-	public TabMercadoriaPK(Integer codMercadoria, Integer codLoja) {
+	public TabMercadoriaPK(String codMercadoria, Integer codLoja) {
 		this.codMercadoria = codMercadoria;
 		this.codLoja = codLoja;
 	}
 
-	public Integer getCodMercadoria() {
+	public String getCodMercadoria() {
 		return codMercadoria;
 	}
 
-	public void setCodMercadoria(Integer codMercadoria) {
+	public void setCodMercadoria(String codMercadoria) {
 		this.codMercadoria = codMercadoria;
 	}
 

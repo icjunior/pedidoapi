@@ -17,6 +17,7 @@ import br.com.bigsupermercados.api.repository.TabMercadoriaTipoVendaRepository;
 import br.com.bigsupermercados.api.repository.ZanPedidoItemRepository;
 import br.com.bigsupermercados.api.repository.ZanPedidoNumeracaoRepository;
 import br.com.bigsupermercados.api.repository.ZanPedidoRepository;
+import br.com.bigsupermercados.api.util.Util;
 
 @Service
 public class PedidoService {
@@ -44,11 +45,11 @@ public class PedidoService {
 	public void salvarItens(ZanPedidoNumeracao numeroPedido, List<PedidoItemForm> itens) {
 
 		List<ZanPedidoItem> pedidoItem = itens.stream().map(item -> {
-			BigDecimal precoUnitario = buscaPrecoUnitario(2, converteCodigo(item.getCodMercadoria()), 1);
+			BigDecimal precoUnitario = buscaPrecoUnitario(2, Util.converteCodigo(item.getCodMercadoria()), 1);
 
 			ZanPedidoItem itemPedido = new ZanPedidoItem(
 					new ZanPedidoItemPK(numeroPedido.getNumeroPedido(), item.getCodPedidoItem(), item.getCodLoja()),
-					converteCodigo(item.getCodMercadoria()), precoUnitario, item.getQuantidade(),
+					Util.converteCodigo(item.getCodMercadoria()), precoUnitario, item.getQuantidade(),
 					item.getValorDesconto());
 			return itemPedido;
 		}).collect(Collectors.toList());
@@ -63,12 +64,12 @@ public class PedidoService {
 	private BigDecimal buscaPrecoUnitario(Integer codLoja, String codMercadoria, Integer codTipoVenda) {
 		return tabMercadoriaTipoVendaRepository
 				.findByTabMercadoriaTipoVendaPKCodLojaAndTabMercadoriaTipoVendaPKCodMercadoriaAndTabMercadoriaTipoVendaPKCodTipoVenda(
-						2, converteCodigo(codMercadoria), 1)
+						2, Util.converteCodigo(codMercadoria), 1)
 				.getPrecoUnitario();
 	}
 
 	private BigDecimal calculaTotal(List<PedidoItemForm> itens) {
-		return itens.stream().map(item -> buscaPrecoUnitario(2, converteCodigo(item.getCodMercadoria()), 1)
+		return itens.stream().map(item -> buscaPrecoUnitario(2, Util.converteCodigo(item.getCodMercadoria()), 1)
 				.multiply(item.getQuantidade())).reduce(BigDecimal.ZERO, BigDecimal::add);
 	}
 
@@ -82,7 +83,7 @@ public class PedidoService {
 		zanPedidoNumeracaoRepository.save(numeroPedido);
 	}
 
-	public String converteCodigo(String codMercadoria) {
-		return String.format("%017d", Long.parseLong(codMercadoria));
-	}
+//	public String converteCodigo(String codMercadoria) {
+//		return String.format("%017d", Long.parseLong(codMercadoria));
+//	}
 }
