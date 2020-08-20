@@ -1,6 +1,8 @@
 package br.com.bigsupermercados.api.controller.dto;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import br.com.bigsupermercados.api.modelo.TabMercadoriaTipoVenda;
 
@@ -37,5 +39,9 @@ public class TabMercadoriaTipoVendaDTO {
 
 	public static TabMercadoriaTipoVendaDTO converter(TabMercadoriaTipoVenda tabMercadoriaTipoVenda) {
 		return new TabMercadoriaTipoVendaDTO(tabMercadoriaTipoVenda);
+	}
+
+	public static List<TabMercadoriaTipoVendaDTO> converter(List<TabMercadoriaTipoVenda> itens) {
+		return itens.stream().map(TabMercadoriaTipoVendaDTO::new).collect(Collectors.toList());
 	}
 }

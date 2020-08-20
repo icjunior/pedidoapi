@@ -1,5 +1,6 @@
 package br.com.bigsupermercados.api.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,16 @@ public class MercadoriaController {
 		Optional<TabMercadoria> mercadoria = mercadoriaService.buscarMaterial(codLoja, codMercadoria);
 		if (mercadoria.isPresent()) {
 			return ResponseEntity.ok(TabMercadoriaDTO.converter(mercadoria.get()));
+		}
+		return ResponseEntity.badRequest().build();
+	}
+
+	@GetMapping("/{codLoja}")
+	private ResponseEntity<List<TabMercadoriaDTO>> carga(@PathVariable Integer codLoja) {
+		List<TabMercadoria> mercadorias = mercadoriaService.listarPorLoja(codLoja);
+		
+		if (!mercadorias.isEmpty()) {
+			return ResponseEntity.ok(TabMercadoriaDTO.converter(mercadorias));
 		}
 		return ResponseEntity.badRequest().build();
 	}

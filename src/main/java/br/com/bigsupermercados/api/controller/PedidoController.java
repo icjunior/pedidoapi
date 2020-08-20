@@ -35,6 +35,9 @@ public class PedidoController {
 
 	@PostMapping
 	public ResponseEntity<?> cadastrar(@RequestBody @Valid PedidoForm form, UriComponentsBuilder uriBuilder) {
+		
+		System.out.println("Requisição para criação de pedido");
+		
 		ZanPedidoNumeracao numeroPedido = pedidoService.numeroPedido();
 		ZanPedido pedido = form.converter(numeroPedido);
 
@@ -43,6 +46,8 @@ public class PedidoController {
 		pedidoService.salvarItens(numeroPedido, form.getItens());
 		pedidoService.atualizarNumeroPedido(numeroPedido);
 
+		System.out.println("Pedido " + pedido.getZanPedidoPK().getCodPedido() + " criado com sucesso.");
+		
 		URI uri = uriBuilder.path("/pedido/{id}").buildAndExpand(pedido.getZanPedidoPK().getCodPedido()).toUri();
 		return ResponseEntity.created(uri).body(new PedidoDTO(pedido));
 	}

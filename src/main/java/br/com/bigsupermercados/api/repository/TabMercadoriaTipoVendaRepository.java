@@ -1,5 +1,7 @@
 package br.com.bigsupermercados.api.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.bigsupermercados.api.modelo.TabMercadoriaTipoVenda;
@@ -11,4 +13,6 @@ public interface TabMercadoriaTipoVendaRepository
 	TabMercadoriaTipoVenda findByTabMercadoriaTipoVendaPKCodLojaAndTabMercadoriaTipoVendaPKCodMercadoriaAndTabMercadoriaTipoVendaPKCodTipoVenda(
 			int codLoja, String codMercadoria, int codTipoVenda);
 
+	List<TabMercadoriaTipoVenda> findByTabMercadoriaTipoVendaPKCodLojaAndTabMercadoriaTipoVendaPKCodTipoVenda(Integer codLoja,
+			Integer codTipoVenda);
 }
